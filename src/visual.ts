@@ -114,18 +114,6 @@ module powerbi.extensibility.visual {
                         selector: null
                     });
                     break;
-                case 'markers': 
-                    objectEnumeration.push({
-                        objectName: objectName,
-                        displayName: "Markers",
-                        properties: {
-                            markerColor: this.settings.markers.getMarkerColor(),
-                            labelFontColor: this.settings.markers.getLabelFontColor(),                            
-                            radius: this.settings.markers.radius                           
-                        },
-                        selector: null
-                    });
-                    break;
                 case 'state1': 
                     objectEnumeration.push({
                         objectName: objectName,
@@ -814,15 +802,6 @@ module powerbi.extensibility.visual {
         }
 
         private limitProperties(settings: RouteMapSettings) {
-            let radius = settings.markers.radius;
-            
-            if(radius > RouteMapMarkersSettings.maximumPossibleRadius) {
-                radius = RouteMapMarkersSettings.maximumPossibleRadius;
-            } else if(radius < RouteMapMarkersSettings.minimunPossibleRadius) {
-                radius = RouteMapMarkersSettings.minimunPossibleRadius;
-            }
-            
-            settings.markers.radius = radius;
             
             let defaultThickness = settings.routes.defaultThickness;
             

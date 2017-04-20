@@ -430,37 +430,7 @@
                 }                 
             }
         },
-        "markers": {
-            "displayName": "Markers",
-            "properties": {
-                "markerColor": {
-                    "displayName": "Marker color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }  
-                },
-                "radius": {
-                    "displayName": "Radius",
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "labelFontColor": {
-                    "displayName": "Label color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                }
-            }            
-        },
+        
         "state1": {
             "displayName": "State 1",
             "properties": {

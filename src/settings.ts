@@ -51,23 +51,7 @@ module powerbi.extensibility.visual {
             return this.routeColor.solid.color;
         }               
     }
-    
-    export class RouteMapMarkersSettings {
-        static minimunPossibleRadius: number = 0.1;
-        static maximumPossibleRadius: number = 20;
-        
-        public labelFontColor: CustomColor = new CustomColor("black");
-        public markerColor: CustomColor = new CustomColor("blue");
-        public radius: number = 6;
-        
-        public getLabelFontColor() {
-            return this.labelFontColor.solid.color;
-        }
-        
-        public getMarkerColor() {
-            return this.markerColor.solid.color;
-        }
-    }
+
     
     export class RouteMapStateSettings {
         public stateColor: CustomColor;
@@ -83,7 +67,6 @@ module powerbi.extensibility.visual {
 
     export class RouteMapSettings extends DataViewObjectsParser {
         public routes: RouteMapRoutesSettings = new RouteMapRoutesSettings();
-        public markers: RouteMapMarkersSettings = new RouteMapMarkersSettings();
         public state1: RouteMapStateSettings = new RouteMapStateSettings("red");
         public state2: RouteMapStateSettings = new RouteMapStateSettings("yellow");
         public state3: RouteMapStateSettings = new RouteMapStateSettings("green");
