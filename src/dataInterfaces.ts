@@ -81,6 +81,7 @@ module powerbi.extensibility.visual {
         locationFrom: string,
         locationTo: string,
         fromToLatLng: FromToLatLng,
+        progress: number,
         stateValue: number,
         stateValueMin1: number,
         stateValueMax1: number,

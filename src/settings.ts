@@ -38,13 +38,17 @@ module powerbi.extensibility.visual {
     export class RouteMapRoutesSettings {
         static maximumPossibleThickness: number = 50;
         static minimumPossibleThickness: number = 0.1;
-        public arcColor: CustomColor = new CustomColor("red"); 
+        public airplaneColor: CustomColor = new CustomColor("red"); 
+        public routeColor: CustomColor = new CustomColor("black");
         public defaultThickness: number = 3;
         public minThickness: number = 1;      
         public maxThickness: number = 5;
         
-        public getArcColor() {
-            return this.arcColor.solid.color;
+        public getAirplaneColor() {
+            return this.airplaneColor.solid.color;
+        }
+        public getRouteColor(){
+            return this.routeColor.solid.color;
         }               
     }
     
@@ -83,5 +87,5 @@ module powerbi.extensibility.visual {
         public state1: RouteMapStateSettings = new RouteMapStateSettings("red");
         public state2: RouteMapStateSettings = new RouteMapStateSettings("yellow");
         public state3: RouteMapStateSettings = new RouteMapStateSettings("green");
-    }
+    }    
 }

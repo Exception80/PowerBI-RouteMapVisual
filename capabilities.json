@@ -55,6 +55,14 @@
                 { "numeric": true }
             ]
         },
+                {
+            "displayName": "Progress",
+            "name": "progress",
+            "kind": "Measure",
+            "requiredTypes": [
+                { "numeric": true }
+            ]
+        },
         {
             "displayName": "State 1 min",
             "name": "stateValueMin1",
@@ -169,6 +177,10 @@
                         "min": 0,
                         "max": 1 
                     },
+                    "progress": {
+                        "min": 0,
+                        "max": 1 
+                    },
                     "stateValueMin1": {
                         "min": 0,
                         "max": 1 
@@ -207,7 +219,7 @@
                     },
                     "tooltips": { 
                         "min": 0 
-                    } 
+                    }
 				},
 				{
                     "market": {
@@ -232,6 +244,10 @@
                         "max": 1
                     },
                     "stateValue": {
+                        "max": 1 
+                    },
+                    "progress": {
+                        "min": 0,
                         "max": 1 
                     },
                     "stateValueMin1": {
@@ -263,7 +279,7 @@
                     },
                     "tooltips": { 
                         "max": 0 
-                    } 
+                    }
 				},
                 {
                     "market": {
@@ -298,6 +314,10 @@
                         "min": 0,
                         "max": 1 
                     },
+                    "progress": {
+                        "min": 0,
+                        "max": 1 
+                    },
                     "stateValueMin1": {
                         "min": 0,
                         "max": 1 
@@ -336,7 +356,7 @@
                     },
                     "tooltips": { 
                         "min": 0 
-                    } 
+                    }                  
 				}
 			],
             "categorical": {
@@ -358,7 +378,8 @@
                             { "bind": { "to": "longFrom" } },
                             { "bind": { "to": "latTo" } },
                             { "bind": { "to": "longTo" } },
-                            { "bind": { "to": "stateValue" } },
+                            { "bind": { "to": "progress" } }, 
+                            { "bind": { "to": "stateValue" } },                         
                             { "bind": { "to": "stateValueMin1" } },
                             { "bind": { "to": "stateValueMax1" } },
                             { "bind": { "to": "stateValueMin2" } },
@@ -379,8 +400,8 @@
         "routes": {
             "displayName": "Routes",
             "properties": {
-                "arcColor": {
-                    "displayName": "Default color",
+                "airplaneColor": {
+                    "displayName": "Default airplane color",
                     "type": {
                         "fill": {
                             "solid": {

@@ -54,6 +54,8 @@ module powerbi.extensibility.visual {
 
     const labelSelector = ".route-map-label";
     const labelClassName = "route-map-label";
+    const labelMarkerClass = "airplane";
+    const labelMarkerSelector = ".airplane";
     export class Visual implements IVisual {
         
         private routeMapDataView: RouteMapDataView;
@@ -66,6 +68,7 @@ module powerbi.extensibility.visual {
         private host: IVisualHost;
         private isFirstMultipleSelection: boolean = true;
         private tooltipServiceWrapper: ITooltipServiceWrapper;
+        private leafletVectorMarker : any;
 
         private root: Selection<any>;
         
@@ -86,13 +89,14 @@ module powerbi.extensibility.visual {
                 this.host.tooltipService,
                 options.element);
 
-            this.hostContainer = $(this.targetHtmlElement).css('overflow-x', 'hidden');
+            this.hostContainer = $(this.targetHtmlElement).css('overflow-x', 'hidden');                        
 
             this.root = d3.select(this.targetHtmlElement);
             this.initMap();
         }
-
+    
         public enumerateObjectInstances(options: EnumerateVisualObjectInstancesOptions): VisualObjectInstanceEnumeration {
+            debugger;
             let objectName = options.objectName;
             let objectEnumeration: VisualObjectInstance[] = [];
 
@@ -102,7 +106,7 @@ module powerbi.extensibility.visual {
                         objectName: objectName,
                         displayName: "Routes",
                         properties: {
-                            arcColor: this.settings.routes.getArcColor(),
+                            airplaneColor: this.settings.routes.getAirplaneColor(),
                             defaultThickness: this.settings.routes.defaultThickness,
                             minThickness: this.settings.routes.minThickness,     
                             maxThickness: this.settings.routes.maxThickness               
@@ -219,7 +223,7 @@ module powerbi.extensibility.visual {
         private midpointTo(pointFrom: L.LatLng, pointTo: L.LatLng): L.LatLng {
             return L.latLng((pointFrom.lat + pointTo.lat) / 2, (pointFrom.lng + pointTo.lng) / 2);
         };
-        
+       
         private getRoot(angleCoeficient: number, latitude: number, longitude: number, distance: number): number[] {
             
             var x0 = latitude;
@@ -270,13 +274,14 @@ module powerbi.extensibility.visual {
             
             let pointFrom = direction.fromToLatLng.fromLatLng,
                 pointTo = direction.fromToLatLng.toLatLng;
-            
+           
             let midpoint = this.midpointTo(pointFrom, pointTo);                    
             
             let specialPoint = this.getSpecialPointLatLng(pointFrom, pointTo, midpoint);                            
             
             let stateValue = direction.stateValue;
-            let color;            
+            let routeColor = settings.routes.getRouteColor(); 
+            let airplaneColor = settings.routes.getAirplaneColor();          
             
             if(stateValue !== undefined && stateValue !== null) {
                 let state1Min = direction.stateValueMin1 !== null ? direction.stateValueMin1 : -Number.MAX_VALUE,
@@ -287,18 +292,18 @@ module powerbi.extensibility.visual {
                     state3Max = direction.stateValueMax3 !== null ? direction.stateValueMax3 : Number.MAX_VALUE;                                  
                 
                 if (stateValue <= state1Max && stateValue >= state1Min && state1Min !== -state1Max) {
-                    color = settings.state1.getStateColor();
+                    airplaneColor = settings.state1.getStateColor();
                 } else if (stateValue <= state2Max && stateValue >= state2Min && state2Min !== -state2Max) {
-                    color = settings.state2.getStateColor();
+                    airplaneColor = settings.state2.getStateColor();
                 } else if (stateValue <= state3Max && stateValue >= state3Min && state3Min !== -state3Max) {
-                    color = settings.state3.getStateColor();
+                    airplaneColor = settings.state3.getStateColor();
                 } else {
-                    color = settings.routes.getArcColor();
+                    airplaneColor = settings.routes.getAirplaneColor();
                 }
             } else {
-                color = settings.routes.getArcColor();
-            }
-            
+                airplaneColor = settings.routes.getAirplaneColor();
+            }           
+
             let thicknessOptions;
             if(direction.thicknessValue >= direction.thicknessMin && direction.thicknessValue <= direction.thicknessMax) {
                 thicknessOptions = this.getThicknessOptions(direction);      
@@ -310,9 +315,41 @@ module powerbi.extensibility.visual {
             
             let curve = l.curve(['M',[pointFrom.lat, pointFrom.lng],
 					   'Q',[specialPoint.lat, specialPoint.lng],
-						   [pointTo.lat, pointTo.lng]], {color: color, weight: thickness} );
+						   [pointTo.lat, pointTo.lng]], {color: routeColor, weight: thickness} );            
             
+            this.renderMarkerOnMap(this.getMarkerPosition(pointFrom, pointTo, specialPoint, direction.progress), this.getMarkerPosition(pointFrom, pointTo, specialPoint, direction.progress-0.01),this.getMarkerPosition(pointFrom, pointTo, specialPoint, direction.progress+0.01), airplaneColor);
             return curve;
+        }
+
+        public renderMarkerOnMap (position : L.LatLng, previosPosition : L.LatLng, nextPosition: L.LatLng, airplaneColor: string) 
+        {
+            let angle = this.getHeading(previosPosition.lat, previosPosition.lng, nextPosition.lat, nextPosition.lng);
+            let svgrect = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">    <g transform="rotate(45 250 250)"><path transform="rotate(' + angle + ' 250 250)" id="path6" fill="' + airplaneColor + '" d="M61.925,60.729c12.008-12.011,31.235-2.873,43.023,4.532c13.794,8.665,25.993,19.841,37.474,31.321l66.963,66.964l208.147-39.9c1.233-0.618,3.14-0.279,4.407,0.074c1.396,0.388,2.66,1.134,3.684,2.158l17.857,17.857c2.201,2.202,2.87,5.395,2.349,8.403c-0.485,.808-2.273,4.955-4.86,6.104l-160.436,76.451l68.359,68.358c18.595-5.313,37.19-10.65,55.888-15.595c3.688-0.975,7.382-1.954,11.105-2.788c0.895-0.2,1.794-0.403,2.702-0.532c2.527-0.359,5.252,0.671,7.035,2.454l17.856,18.135c2.116,2.117,2.855,5.195,2.379,8.107	    c-0.446,2.733-2.196,4.845-4.61,6.123l-78.125,43.248l-43.248,78.125c-1.447,2.314-3.645,3.984-6.385,4.367c-2.839,0.397-5.792-0.36-7.846-2.414l-17.857-17.857c-1.888-1.887-2.842-4.712-2.403-7.356c0.211-1.274,0.511-2.535,0.808-3.792c1.221-5.165,2.609-10.292,3.994-15.414c4.532-16.765,9.293-33.469,4.064-50.167l-68.359-68.359l-76.451,160.437c-1.107,2.49-3.146,4.268-5.84,4.811c-3.074,0.619-6.408-0.039-8.668-2.3l-17.857-17.856c-1.674-1.674-2.511-3.813-2.511-6.418	    l0.279-1.674l39.898-208.146l-66.965-66.964c-8.304-8.304-16.31-16.962-23.472-26.28c-5.323-6.926-10.284-14.277-13.852-22.277C55.979,82.639,53.229,69.417,61.925,60.729C65.737,56.915,58.108,64.542,61.925,60.729z" />    </g>    </svg>';
+            let url = encodeURI("data:image/svg+xml," + svgrect).replace('#','%23');
+            let icon = L.icon({iconUrl: url, className: labelMarkerClass });
+            L.marker(position, {icon: icon}).addTo(this.map); 
+            $(labelMarkerSelector).css({ 'left': '-15px', 'top': '-15px'})                      
+        }
+        
+        public getMarkerPosition(pointFrom : L.LatLng, pointTo: L.LatLng, specialPoint: L.LatLng, t: number) : L.LatLng 
+        {
+            let pointFromXY = this.map.project(pointFrom);
+            let pointToXY = this.map.project(pointTo);                      
+            let specialPointXY = this.map.project(specialPoint);
+            let x = (1 - t)*(1 - t) * pointFromXY.x + 2 * (1 - t) * t * specialPointXY.x + t * t * pointToXY.x;
+            let y = (1 - t)*(1 - t) * pointFromXY.y + 2 * (1 - t) * t * specialPointXY.y + t * t * pointToXY.y;            
+            return this.map.unproject(L.point(x,y));
+        }
+
+        public getHeading(lat1, lon1, lat2, lon2) {
+            lat1 = lat1 * Math.PI / 180;
+            lat2 = lat2 * Math.PI / 180;
+            var dLon = (lon2 - lon1) * Math.PI / 180;
+            var y = Math.sin(dLon) * Math.cos(lat2);
+            var x = Math.cos(lat1) * Math.sin(lat2) -
+                Math.sin(lat1) * Math.cos(lat2) * Math.cos(dLon);
+            var brng = Math.atan2(y, x);
+            return (((brng * 180 / Math.PI) + 360) % 360);
         }
 
         public updateContainerViewports(viewport: IViewport) {
@@ -559,6 +596,7 @@ module powerbi.extensibility.visual {
                 latsTo: any[] = dataView.categorical.values[2].values,
                 longsFrom: any[] = dataView.categorical.values[1].values,
                 longsTo: any[] = dataView.categorical.values[3].values,
+                progressValues: any[] = dataView.categorical.values[5].values,
                 stateValues: any[],
                 stateValuesMin1: any[],
                 stateValuesMax1: any[],
@@ -638,6 +676,7 @@ module powerbi.extensibility.visual {
                         locationFrom: codesFrom[index],
                         locationTo: codesTo[index],
                         fromToLatLng: fromToLatLng,
+                        progress: progressValues[index],
                         stateValue: stateValues ? stateValues[index] : null,
                         stateValueMin1: stateValuesMin1 ? stateValuesMin1[index] : null,
                         stateValueMax1: stateValuesMax1 ? stateValuesMax1[index] : null,
@@ -817,7 +856,6 @@ module powerbi.extensibility.visual {
         }
 
         public converter(dataView: DataView): RouteMapDataView {
-
             this.isDataValid = false;
             let settings = this.settings = this.parseSettings(dataView);
             this.limitProperties(settings);
@@ -836,7 +874,8 @@ module powerbi.extensibility.visual {
                 || !dataView.categorical.values[1]
                 || !dataView.categorical.values[2]
                 || !dataView.categorical.values[3]
-                || dataView.categorical.values[3].source.roles["tooltips"]) {
+                || !dataView.categorical.values[4]
+                || dataView.categorical.values[4].source.roles["tooltips"]) {
 
                 return {
                     arcs: {},
