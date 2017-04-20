@@ -29,41 +29,26 @@ module powerbi.extensibility.visual {
     import TooltipEnabledDataPoint = powerbi.extensibility.utils.tooltip.TooltipEnabledDataPoint;
     
     export interface RouteMapDataView {
-        markers: RouteMapMarkerList,
-        arcs: RouteMapArcList,
-        arcsLayer: L.FeatureGroup,
-        markersLayer: L.FeatureGroup
+        planes: RouteMapPlanesList,
+        planesLayer: L.FeatureGroup
     }
     
-    export interface RouteMapMarkerList {
-        [key: string]: RouteMapMarker;
+    export interface RouteMapPlanesList {
+        [key: string]: RouteMapPlane;
     }
-    
-    export interface RouteMapArcList {
-        [key: string]: RouteMapArc;
+
+    export interface RouteMapPlane {
+        marker: L.Marker,
+        location: L.LatLng,
     }
-    
-    export interface RouteMapMarker {
-        marker: L.CircleMarker, 
-        location: string,
-        arcs: RouteMapArc[],
-        isSelected: boolean
-    }
-    
+      
     export interface FromToLatLng {
         toLatLng: L.LatLng,
         fromLatLng: L.LatLng,
         isFromLngMinus360: boolean,
         isToLngMinus360: boolean
     }
-    
-    export interface RouteMapArc extends TooltipEnabledDataPoint {
-        arc: L.Polyline, 
-        markers: RouteMapMarker[],
-        isSelected: boolean,
-        selectionId: ISelectionId
-    }
-    
+       
     export interface RouteMapPoint {
         name: string,
         latitude: number,
@@ -76,12 +61,10 @@ module powerbi.extensibility.visual {
     } 
     
     export interface Direction {
-        market: string,
-        index: number,
-        locationFrom: string,
-        locationTo: string,
-        fromToLatLng: FromToLatLng,
-        progress: number,
+        planecode: string,
+        latitude: number,
+        longitude: number,
+        heading: number,
         stateValue: number,
         stateValueMin1: number,
         stateValueMax1: number,
@@ -89,9 +72,6 @@ module powerbi.extensibility.visual {
         stateValueMax2: number,
         stateValueMin3: number,
         stateValueMax3: number,
-        thicknessValue: number,
-        thicknessMin: number,
-        thicknessMax: number,
         tooltipInfo: VisualTooltipDataItem[]  
     }
 }

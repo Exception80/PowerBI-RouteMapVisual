@@ -38,18 +38,10 @@ module powerbi.extensibility.visual {
     export class RouteMapRoutesSettings {
         static maximumPossibleThickness: number = 50;
         static minimumPossibleThickness: number = 0.1;
-        public airplaneColor: CustomColor = new CustomColor("red"); 
-        public routeColor: CustomColor = new CustomColor("black");
-        public defaultThickness: number = 3;
-        public minThickness: number = 1;      
-        public maxThickness: number = 5;
-        
+        public airplaneColor: CustomColor = new CustomColor("red");         
         public getAirplaneColor() {
             return this.airplaneColor.solid.color;
-        }
-        public getRouteColor(){
-            return this.routeColor.solid.color;
-        }               
+        }              
     }
     
     export class RouteMapMarkersSettings {

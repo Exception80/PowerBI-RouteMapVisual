@@ -1,47 +1,29 @@
 {
     "dataRoles": [
         {
-            "displayName": "Market",
-            "name": "market",
+            "displayName": "Plane Code",
+            "name": "planecode",
             "kind": "Grouping"
         },	
 		{
-            "displayName": "Location From",
-            "name": "codeFrom",
-            "kind": "Grouping"
-        },
-		{
-            "displayName": "Latitude From",
-            "name": "latFrom",
+            "displayName": "Latitude",
+            "name": "latitude",
             "kind": "Measure",
             "requiredTypes": [
                 { "numeric": true }
             ]
         },
 		{
-            "displayName": "Longitude From",
-            "name": "longFrom",
+            "displayName": "Longitude",
+            "name": "longitude",
             "kind": "Measure",
             "requiredTypes": [
                 { "numeric": true }
             ]
-        },
-		{
-            "displayName": "Location To",
-            "name": "codeTo",
-            "kind": "Grouping"
         },	
 		{
-            "displayName": "Latitude To",
-            "name": "latTo",
-            "kind": "Measure",
-            "requiredTypes": [
-                { "numeric": true }
-            ]
-        },
-		{
-            "displayName": "Longitude To",
-            "name": "longTo",
+            "displayName": "Heading",
+            "name": "heading",
             "kind": "Measure",
             "requiredTypes": [
                 { "numeric": true }
@@ -50,14 +32,6 @@
         {
             "displayName": "State value",
             "name": "stateValue",
-            "kind": "Measure",
-            "requiredTypes": [
-                { "numeric": true }
-            ]
-        },
-                {
-            "displayName": "Progress",
-            "name": "progress",
             "kind": "Measure",
             "requiredTypes": [
                 { "numeric": true }
@@ -112,30 +86,6 @@
             ]
         },
         {
-            "displayName": "Thickness value",
-            "name": "thicknessValue",
-            "kind": "Measure",
-            "requiredTypes": [
-                { "numeric": true }
-            ]
-        },
-        {
-            "displayName": "Thickness min",
-            "name": "thicknessMin",
-            "kind": "Measure",
-            "requiredTypes": [
-                { "numeric": true }
-            ]
-        },
-        {
-            "displayName": "Thickness max",
-            "name": "thicknessMax",
-            "kind": "Measure",
-            "requiredTypes": [
-                { "numeric": true }
-            ]
-        },
-        {
             "displayName": "Tooltips",
             "name": "tooltips",
             "kind": "Measure"
@@ -145,42 +95,26 @@
 		{
 			"conditions": [
                 {
-                    "market": {
+                    "planecode": {
                         "min": 1,
                         "max": 1 
                     },
-					"codeFrom": {
+					"latitude": {
                         "min": 1,
                         "max": 1 
                     },
-					"latFrom": {
+					"longitude": {
                         "min": 1,
                         "max": 1 
                     },
-					"longFrom": {
+					"heading": {
                         "min": 1,
                         "max": 1 
                     },					
-					"codeTo": {
-                        "min": 1,
-                        "max": 1 
-                    },
-					"latTo": {
-                        "min": 1,
-                        "max": 1 
-                    },
-					"longTo": {
-                        "min": 1,
-                        "max": 1 
-                    },
-                    "stateValue": {
+					"stateValue": {
                         "min": 0,
                         "max": 1 
-                    },
-                    "progress": {
-                        "min": 0,
-                        "max": 1 
-                    },
+                    },                    
                     "stateValueMin1": {
                         "min": 0,
                         "max": 1 
@@ -204,52 +138,27 @@
                     "stateValueMax3": {
                         "min": 0,
                         "max": 1 
-                    },
-                    "thicknessValue": {
-                        "min": 0,
-                        "max": 1 
-                    },
-                    "thicknessMin": {
-                        "min": 0,
-                        "max": 1 
-                    },
-                    "thicknessMax": {
-                        "min": 0,
-                        "max": 1 
-                    },
+                    },                   
                     "tooltips": { 
                         "min": 0 
                     }
 				},
 				{
-                    "market": {
-                        "max": 1
+                    "planecode": {
+                        "max": 0
                     },
-					"codeFrom": {
-                        "max": 1
+					"latitude": {
+                        "max": 0
                     },
-					"latFrom": {
-                        "max": 1
+					"longitude": {
+                        "max": 0
                     },
-					"longFrom": {
-                        "max": 1
+					"heading": {
+                        "max": 360
                     },					
-					"codeTo": {
-                        "max": 1
-                    },
-					"latTo": {
-                        "max": 1
-                    },
-					"longTo": {
-                        "max": 1
-                    },
                     "stateValue": {
                         "max": 1 
-                    },
-                    "progress": {
-                        "min": 0,
-                        "max": 1 
-                    },
+                    },                    
                     "stateValueMin1": {
                         "max": 1 
                     },
@@ -267,57 +176,32 @@
                     },
                     "stateValueMax3": {
                         "max": 1 
-                    },
-                    "thicknessValue": {
-                        "max": 1 
-                    },
-                    "thicknessMin": {
-                        "max": 1 
-                    },
-                    "thicknessMax": {
-                        "max": 1 
-                    },
+                    },                  
                     "tooltips": { 
                         "max": 0 
                     }
 				},
                 {
-                    "market": {
+                    "planecode": {
                         "min": 0,
                         "max": 1 
                     },
-					"codeFrom": {
+					"latitude": {
                         "min": 0,
                         "max": 1 
                     },
-					"latFrom": {
+					"longitude": {
                         "min": 0,
                         "max": 1 
                     },
-					"longFrom": {
-                        "min": 0,
-                        "max": 1 
-                    },					
-					"codeTo": {
-                        "min": 0,
-                        "max": 1 
-                    },
-					"latTo": {
-                        "min": 0,
-                        "max": 1 
-                    },
-					"longTo": {
+					"heading": {
                         "min": 0,
                         "max": 1 
                     },
                     "stateValue": {
                         "min": 0,
                         "max": 1 
-                    },
-                    "progress": {
-                        "min": 0,
-                        "max": 1 
-                    },
+                    },                   
                     "stateValueMin1": {
                         "min": 0,
                         "max": 1 
@@ -339,18 +223,6 @@
                         "max": 1 
                     },
                     "stateValueMax3": {
-                        "min": 0,
-                        "max": 1 
-                    },
-                    "thicknessValue": {
-                        "min": 0,
-                        "max": 1 
-                    },
-                    "thicknessMin": {
-                        "min": 0,
-                        "max": 1 
-                    },
-                    "thicknessMax": {
                         "min": 0,
                         "max": 1 
                     },
@@ -362,23 +234,17 @@
             "categorical": {
                 "categories": {
                     "select": [
-                        { "bind": { "to": "market" } },
-                        { "bind": { "to": "codeFrom" } },
-                        { "bind": { "to": "codeTo" } }
+                        { "bind": { "to": "planecode" } }
                     ],
                     "dataReductionAlgorithm": {
                         "top": {}
                     }
                 },
 				"values": {
-                    "group": {
-                        "by": "codeTo",
                         "select":[
-                            { "bind": { "to": "latFrom" } },
-                            { "bind": { "to": "longFrom" } },
-                            { "bind": { "to": "latTo" } },
-                            { "bind": { "to": "longTo" } },
-                            { "bind": { "to": "progress" } }, 
+                            { "bind": { "to": "latitude" } },
+                            { "bind": { "to": "longitude" } },
+                            { "bind": { "to": "heading" } },
                             { "bind": { "to": "stateValue" } },                         
                             { "bind": { "to": "stateValueMin1" } },
                             { "bind": { "to": "stateValueMax1" } },
@@ -386,15 +252,11 @@
                             { "bind": { "to": "stateValueMax2" } },
                             { "bind": { "to": "stateValueMin3" } },
                             { "bind": { "to": "stateValueMax3" } },
-                            { "bind": { "to": "thicknessValue" } },
-                            { "bind": { "to": "thicknessMin" } },
-                            { "bind": { "to": "thicknessMax" } },
                             { "for": { "in": "tooltips" } }
                         ]
                     }
                 }                
-			}
-        }                 					
+			}                					
     ],
     "objects": {
         "routes": {
@@ -409,57 +271,8 @@
                             }
                         }
                     }
-                },
-                "defaultThickness": {
-                    "displayName": "Default thickness",
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "minThickness": {
-                    "displayName": "Min thickness",
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "maxThickness": {
-                    "displayName": "Max thickness",
-                    "type": {
-                        "numeric": true
-                    }
                 }                 
             }
-        },
-        "markers": {
-            "displayName": "Markers",
-            "properties": {
-                "markerColor": {
-                    "displayName": "Marker color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }  
-                },
-                "radius": {
-                    "displayName": "Radius",
-                    "type": {
-                        "numeric": true
-                    }
-                },
-                "labelFontColor": {
-                    "displayName": "Label color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                }
-            }            
         },
         "state1": {
             "displayName": "State 1",
