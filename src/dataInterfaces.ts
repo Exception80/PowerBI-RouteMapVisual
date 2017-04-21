@@ -28,16 +28,16 @@ module powerbi.extensibility.visual {
     
     import TooltipEnabledDataPoint = powerbi.extensibility.utils.tooltip.TooltipEnabledDataPoint;
     
-    export interface RouteMapDataView {
-        planes: RouteMapPlanesList,
+    export interface PlanesVisDataView {
+        planes: PlanesVisPlanesList,
         planesLayer: L.FeatureGroup
     }
     
-    export interface RouteMapPlanesList {
-        [key: string]: RouteMapPlane;
+    export interface PlanesVisPlanesList {
+        [key: string]: PlanesVisPlane;
     }
 
-    export interface RouteMapPlane {
+    export interface PlanesVisPlane {
         marker: L.Marker,
         location: L.LatLng,
         isSelected: boolean,
@@ -51,7 +51,7 @@ module powerbi.extensibility.visual {
         isToLngMinus360: boolean
     }
        
-    export interface RouteMapPoint {
+    export interface PlanesVisPoint {
         name: string,
         latitude: number,
         longitude: number

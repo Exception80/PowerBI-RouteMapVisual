@@ -1,5 +1,5 @@
 # Microsoft Power BI visuals Planes Visual
-> Planes Visual is a visual designed to show route between points on the map.
+> Planes Visual is a visual designed to show planes on the map.
 
 ## Installation
 * [Basic setup](https://github.com/Microsoft/PowerBI-visuals-tools#basic-setup)

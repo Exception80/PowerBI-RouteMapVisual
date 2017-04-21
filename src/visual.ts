@@ -52,13 +52,14 @@ module powerbi.extensibility.visual {
     import TextProperties = powerbi.extensibility.utils.formatting.TextProperties;
     import textMeasurementService = powerbi.extensibility.utils.formatting.textMeasurementService;
 
-    const labelSelector = ".route-map-label";
-    const labelClassName = "route-map-label";
+    const labelClassName = "planes-vis-label";
+    const labelSelector = "." + labelClassName;
+    
     const labelMarkerClass = "airplane";
     const labelMarkerSelector = ".airplane";
     export class Visual implements IVisual {
         
-        private routeMapDataView: RouteMapDataView;
+        private planesVisDataView: PlanesVisDataView;
         private targetHtmlElement: HTMLElement;
         private hostContainer: JQuery;
         private map: any;
@@ -164,7 +165,7 @@ module powerbi.extensibility.visual {
                         attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
                         maxZoom: 18
             }).addTo(this.map);
-            this.routeMapDataView = {
+            this.planesVisDataView = {
                 planes: {},
                 planesLayer: L.featureGroup(),
             };
@@ -178,10 +179,10 @@ module powerbi.extensibility.visual {
                     && options.dataViews
                     && options.dataViews[0];                
                 this.clearMap();
-                this.routeMapDataView = this.converter(dataView);
+                this.planesVisDataView = this.converter(dataView);
                 this.render();
             }            
-            let bounds = this.routeMapDataView.planesLayer.getBounds();            
+            let bounds = this.planesVisDataView.planesLayer.getBounds();            
             if(bounds && bounds.isValid()) {
                 this.map.fitBounds(bounds);    
             }       
@@ -232,7 +233,7 @@ module powerbi.extensibility.visual {
         }
 
         private setLabelToElement(content: string, element: any): void {
-            element.bindTooltip(content, { permanent: true, className: "route-map-label", offset: [0, 0] });
+            element.bindTooltip(content, { permanent: true, className: labelClassName, offset: [0, 0] });
         }
 
         private setSelectionStyle(selected: boolean, element: L.Marker): void {
@@ -255,12 +256,12 @@ module powerbi.extensibility.visual {
         }
 
         public render(): void {
-            this.map.addLayer(this.routeMapDataView.planesLayer);            
+            this.map.addLayer(this.planesVisDataView.planesLayer);            
             this.setLabelFontColor(this.settings.markers.getLabelFontColor());        
         }
        
         public clearMap(): void {
-            let dataView = this.routeMapDataView;
+            let dataView = this.planesVisDataView;
             if (dataView && dataView.planesLayer) {
                 dataView.planesLayer.clearLayers();
             }
@@ -347,7 +348,7 @@ module powerbi.extensibility.visual {
             return directions;
        }
                    
-       private createRouteMapPlane(direction: Direction, settings: PlanesVisSettings, selectionCategoryColumn: DataViewCategoricalColumn): RouteMapPlane {                                                                                             
+       private createPlane(direction: Direction, settings: PlanesVisSettings, selectionCategoryColumn: DataViewCategoricalColumn): PlanesVisPlane {                                                                                             
             let plane = this.createPlaneMarker(direction, settings); 
             this.setOnMarkerClickEvent(plane);
 
@@ -364,7 +365,7 @@ module powerbi.extensibility.visual {
         }
 
        
-        public converter(dataView: DataView): RouteMapDataView {
+        public converter(dataView: DataView): PlanesVisDataView {
             this.isDataValid = false;
             let settings = this.settings = this.parseSettings(dataView);
             
@@ -389,7 +390,7 @@ module powerbi.extensibility.visual {
                 planeCategory = dataView.categorical.categories[0];
 
             let planesCategory = dataView.categorical.categories[0];
-            let processedPlanes: RouteMapPlanesList = {}
+            let processedPlanes: PlanesVisPlanesList = {}
             let planeLayer: L.FeatureGroup = L.featureGroup();
 
             for (var item in directions) {
@@ -398,7 +399,7 @@ module powerbi.extensibility.visual {
                 if(!keyArc) {
                     continue;
                 } 
-                let planesMap = this.createRouteMapPlane(direction,settings, planesCategory);
+                let planesMap = this.createPlane(direction,settings, planesCategory);
                 processedPlanes[keyArc] = planesMap;
                 planeLayer.addLayer(processedPlanes[keyArc].marker);
             }        
@@ -420,25 +421,25 @@ module powerbi.extensibility.visual {
             element.on('click', function(e) {                
                 (e as L.MouseEvent).originalEvent.preventDefault();
 
-                let planes = me.routeMapDataView.planes;
+                let planes = me.planesVisDataView.planes;
                 let planesSelectionIds: ISelectionId[] = [];
-                let routeMapPlane: RouteMapPlane;
+                let plane: PlanesVisPlane;
 
                 for(let item in planes){
                     if(planes[item].marker === this){
-                        routeMapPlane = planes[item];
+                        plane = planes[item];
                         break;                      
                     }
                 }
                 let isMultipleSelection = (e as L.MouseEvent).originalEvent.ctrlKey;
 
-                if(!routeMapPlane || (routeMapPlane.isSelected && !isMultipleSelection)) {
+                if(!plane || (plane.isSelected && !isMultipleSelection)) {
                     return;
                 }
 
-                if(!routeMapPlane.isSelected)
+                if(!plane.isSelected)
                 {
-                    planesSelectionIds.push(routeMapPlane.selectionId);
+                    planesSelectionIds.push(plane.selectionId);
                 }
 
                 me.selectionManager.select(planesSelectionIds, isMultipleSelection).then((ids: ISelectionId[]) => {
@@ -451,8 +452,8 @@ module powerbi.extensibility.visual {
                         }
                         me.isFirstMultipleSelection = false;                        
                     }
-                    routeMapPlane.isSelected = !routeMapPlane.isSelected;
-                    me.setSelectionStyle(routeMapPlane.isSelected,routeMapPlane.marker);
+                    plane.isSelected = !plane.isSelected;
+                    me.setSelectionStyle(plane.isSelected,plane.marker);
                 });
             });
         }
@@ -485,7 +486,7 @@ module powerbi.extensibility.visual {
         }
 
         private unselectAll(): void {
-            let planes = this.routeMapDataView.planes;
+            let planes = this.planesVisDataView.planes;
 
             for (var item in planes) {
                 planes[item].isSelected = false;
