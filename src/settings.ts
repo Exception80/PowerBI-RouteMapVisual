@@ -43,7 +43,7 @@ module powerbi.extensibility.visual {
     }
     
     export class PlanesVisMarkersSettings {
-        static minimunPossibleRadius: number = 0.1;
+        static minimumPossibleRadius: number = 0.1;
         static maximumPossibleRadius: number = 20;
         
         public labelFontColor: CustomColor = new CustomColor("black");
