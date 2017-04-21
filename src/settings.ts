@@ -36,8 +36,6 @@ module powerbi.extensibility.visual {
     }
 
     export class PlanesVisPlanesSettings {
-        static maximumPossibleThickness: number = 50;
-        static minimumPossibleThickness: number = 0.1;
         public airplaneColor: CustomColor = new CustomColor("red");         
         public getAirplaneColor() {
             return this.airplaneColor.solid.color;

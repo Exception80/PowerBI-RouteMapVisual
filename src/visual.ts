@@ -56,7 +56,7 @@ module powerbi.extensibility.visual {
     const labelSelector = "." + labelClassName;
     
     const labelMarkerClass = "airplane";
-    const labelMarkerSelector = ".airplane";
+    const labelMarkerSelector = "." + labelMarkerClass;
     export class Visual implements IVisual {
         
         private planesVisDataView: PlanesVisDataView;
@@ -101,10 +101,10 @@ module powerbi.extensibility.visual {
             let objectEnumeration: VisualObjectInstance[] = [];
 
             switch (objectName) {
-                case 'routes':
+                case 'planes':
                     objectEnumeration.push({
                         objectName: objectName,
-                        displayName: "Routes",
+                        displayName: "Planes",
                         properties: {
                             airplaneColor: this.settings.planes.getAirplaneColor()             
                         },

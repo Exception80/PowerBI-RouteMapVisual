@@ -259,7 +259,7 @@
 			}                					
     ],
     "objects": {
-        "routes": {
+        "planes": {
             "displayName": "Planes",
             "properties": {
                 "airplaneColor": {
