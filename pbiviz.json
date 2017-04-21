@@ -1,8 +1,8 @@
 {
   "visual": {
-    "name": "routeMap",
-    "displayName": "Route Map",
-    "guid": "PBI_CV_DD900773_4713_45DE_BE5F_77B59D33F7DF",
+    "name": "planesVisual",
+    "displayName": "Planes Visual",
+    "guid": "planes9FFB60C7CB424A91B777B23539A6921F",
     "visualClassName": "Visual",
     "version": "1.2.6",
     "description": "",

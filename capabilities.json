@@ -260,10 +260,10 @@
     ],
     "objects": {
         "routes": {
-            "displayName": "Routes",
+            "displayName": "Planes",
             "properties": {
                 "airplaneColor": {
-                    "displayName": "Default airplane color",
+                    "displayName": "Default plane color",
                     "type": {
                         "fill": {
                             "solid": {
