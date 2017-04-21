@@ -40,6 +40,8 @@ module powerbi.extensibility.visual {
     export interface RouteMapPlane {
         marker: L.Marker,
         location: L.LatLng,
+        isSelected: boolean,
+        selectionId: ISelectionId
     }
       
     export interface FromToLatLng {
@@ -61,6 +63,7 @@ module powerbi.extensibility.visual {
     } 
     
     export interface Direction {
+        index: number,
         planecode: string,
         latitude: number,
         longitude: number,
