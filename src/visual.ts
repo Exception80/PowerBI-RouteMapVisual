@@ -72,7 +72,7 @@ module powerbi.extensibility.visual {
 
         private root: Selection<any>;
         
-        private settings: RouteMapSettings;
+        private settings: PlanesVisSettings;
 
         constructor(options: VisualConstructorOptions) {
             this.init(options);
@@ -105,7 +105,7 @@ module powerbi.extensibility.visual {
                         objectName: objectName,
                         displayName: "Routes",
                         properties: {
-                            airplaneColor: this.settings.routes.getAirplaneColor()             
+                            airplaneColor: this.settings.planes.getAirplaneColor()             
                         },
                         selector: null
                     });
@@ -189,13 +189,13 @@ module powerbi.extensibility.visual {
             this.updateContainerViewports(options.viewport);
         }
 
-        private parseSettings(dataView: DataView): RouteMapSettings {
-            return RouteMapSettings.parse<RouteMapSettings>(dataView);
+        private parseSettings(dataView: DataView): PlanesVisSettings {
+            return PlanesVisSettings.parse<PlanesVisSettings>(dataView);
         }
         
-        private createPlaneMarker(direction: Direction,  settings: RouteMapSettings) : L.Marker{
+        private createPlaneMarker(direction: Direction,  settings: PlanesVisSettings) : L.Marker{
             let stateValue = direction.stateValue;
-            let airplaneColor = settings.routes.getAirplaneColor();                 
+            let airplaneColor = settings.planes.getAirplaneColor();                 
             if(stateValue !== undefined && stateValue !== null) {
                 let state1Min = direction.stateValueMin1 !== null ? direction.stateValueMin1 : -Number.MAX_VALUE,
                     state1Max = direction.stateValueMax1 !== null ? direction.stateValueMax1 : Number.MAX_VALUE,
@@ -240,7 +240,7 @@ module powerbi.extensibility.visual {
             element.setOpacity(opacity);
         }
   
-        private createCustomizableMarker(latLng: L.LatLng, settings: RouteMapSettings): L.CircleMarker {
+        private createCustomizableMarker(latLng: L.LatLng, settings: PlanesVisSettings): L.CircleMarker {
             let marker = L.circleMarker(latLng, {
                 color: settings.markers.getMarkerColor(),
                 fillColor:  settings.markers.getMarkerColor(),
@@ -347,7 +347,7 @@ module powerbi.extensibility.visual {
             return directions;
        }
                    
-       private createRouteMapPlane(direction: Direction, settings: RouteMapSettings, selectionCategoryColumn: DataViewCategoricalColumn): RouteMapPlane {                                                                                             
+       private createRouteMapPlane(direction: Direction, settings: PlanesVisSettings, selectionCategoryColumn: DataViewCategoricalColumn): RouteMapPlane {                                                                                             
             let plane = this.createPlaneMarker(direction, settings); 
             this.setOnMarkerClickEvent(plane);
 

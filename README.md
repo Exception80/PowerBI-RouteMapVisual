@@ -1,5 +1,5 @@
-# Microsoft Power BI visuals RouteMapVisual
-> RouteMapVisual is a visual designed to show route between points on the map.
+# Microsoft Power BI visuals Planes Visual
+> Planes Visual is a visual designed to show route between points on the map.
 
 ## Installation
 * [Basic setup](https://github.com/Microsoft/PowerBI-visuals-tools#basic-setup)

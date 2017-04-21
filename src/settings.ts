@@ -35,7 +35,7 @@ module powerbi.extensibility.visual {
         }
     }
 
-    export class RouteMapRoutesSettings {
+    export class PlanesVisPlanesSettings {
         static maximumPossibleThickness: number = 50;
         static minimumPossibleThickness: number = 0.1;
         public airplaneColor: CustomColor = new CustomColor("red");         
@@ -44,7 +44,7 @@ module powerbi.extensibility.visual {
         }              
     }
     
-    export class RouteMapMarkersSettings {
+    export class PlanesVisMarkersSettings {
         static minimunPossibleRadius: number = 0.1;
         static maximumPossibleRadius: number = 20;
         
@@ -61,7 +61,7 @@ module powerbi.extensibility.visual {
         }
     }
     
-    export class RouteMapStateSettings {
+    export class PlanesVisStateSettings {
         public stateColor: CustomColor;
         
         public getStateColor() {
@@ -73,11 +73,11 @@ module powerbi.extensibility.visual {
         }
     }
 
-    export class RouteMapSettings extends DataViewObjectsParser {
-        public routes: RouteMapRoutesSettings = new RouteMapRoutesSettings();
-        public markers: RouteMapMarkersSettings = new RouteMapMarkersSettings();
-        public state1: RouteMapStateSettings = new RouteMapStateSettings("red");
-        public state2: RouteMapStateSettings = new RouteMapStateSettings("yellow");
-        public state3: RouteMapStateSettings = new RouteMapStateSettings("green");
+    export class PlanesVisSettings extends DataViewObjectsParser {
+        public planes: PlanesVisPlanesSettings = new PlanesVisPlanesSettings();
+        public markers: PlanesVisMarkersSettings = new PlanesVisMarkersSettings();
+        public state1: PlanesVisStateSettings = new PlanesVisStateSettings("red");
+        public state2: PlanesVisStateSettings = new PlanesVisStateSettings("yellow");
+        public state3: PlanesVisStateSettings = new PlanesVisStateSettings("green");
     }    
 }
