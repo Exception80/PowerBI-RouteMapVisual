@@ -194,16 +194,16 @@ module powerbi.extensibility.visual {
             return PlanesVisSettings.parse<PlanesVisSettings>(dataView);
         }
         
-        private createPlaneMarker(direction: Direction,  settings: PlanesVisSettings) : L.Marker{
-            let stateValue = direction.stateValue;
+        private createPlaneMarker(planeInfo: PlaneInfo,  settings: PlanesVisSettings) : L.Marker{
+            let stateValue = planeInfo.stateValue;
             let airplaneColor = settings.planes.getAirplaneColor();                 
             if(stateValue !== undefined && stateValue !== null) {
-                let state1Min = direction.stateValueMin1 !== null ? direction.stateValueMin1 : -Number.MAX_VALUE,
-                    state1Max = direction.stateValueMax1 !== null ? direction.stateValueMax1 : Number.MAX_VALUE,
-                    state2Min = direction.stateValueMin2 !== null ? direction.stateValueMin2 : -Number.MAX_VALUE,
-                    state2Max = direction.stateValueMax2 !== null ? direction.stateValueMax2 : Number.MAX_VALUE,
-                    state3Min = direction.stateValueMin3 !== null ? direction.stateValueMin3 : -Number.MAX_VALUE,
-                    state3Max = direction.stateValueMax3 !== null ? direction.stateValueMax3 : Number.MAX_VALUE;                                                  
+                let state1Min = planeInfo.stateValueMin1 !== null ? planeInfo.stateValueMin1 : -Number.MAX_VALUE,
+                    state1Max = planeInfo.stateValueMax1 !== null ? planeInfo.stateValueMax1 : Number.MAX_VALUE,
+                    state2Min = planeInfo.stateValueMin2 !== null ? planeInfo.stateValueMin2 : -Number.MAX_VALUE,
+                    state2Max = planeInfo.stateValueMax2 !== null ? planeInfo.stateValueMax2 : Number.MAX_VALUE,
+                    state3Min = planeInfo.stateValueMin3 !== null ? planeInfo.stateValueMin3 : -Number.MAX_VALUE,
+                    state3Max = planeInfo.stateValueMax3 !== null ? planeInfo.stateValueMax3 : Number.MAX_VALUE;                                                  
                 if (stateValue <= state1Max && stateValue >= state1Min && state1Min !== -state1Max) {
                     airplaneColor = settings.state1.getStateColor();
                 } else if (stateValue <= state2Max && stateValue >= state2Min && state2Min !== -state2Max) {
@@ -212,11 +212,11 @@ module powerbi.extensibility.visual {
                     airplaneColor = settings.state3.getStateColor();
                 }
             }
-            let svgrect = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">    <g transform="rotate(45 250 250)"><path transform="rotate(' + direction.heading + ' 250 250)" id="path6" fill="' + airplaneColor + '" d="M61.925,60.729c12.008-12.011,31.235-2.873,43.023,4.532c13.794,8.665,25.993,19.841,37.474,31.321l66.963,66.964l208.147-39.9c1.233-0.618,3.14-0.279,4.407,0.074c1.396,0.388,2.66,1.134,3.684,2.158l17.857,17.857c2.201,2.202,2.87,5.395,2.349,8.403c-0.485,.808-2.273,4.955-4.86,6.104l-160.436,76.451l68.359,68.358c18.595-5.313,37.19-10.65,55.888-15.595c3.688-0.975,7.382-1.954,11.105-2.788c0.895-0.2,1.794-0.403,2.702-0.532c2.527-0.359,5.252,0.671,7.035,2.454l17.856,18.135c2.116,2.117,2.855,5.195,2.379,8.107	    c-0.446,2.733-2.196,4.845-4.61,6.123l-78.125,43.248l-43.248,78.125c-1.447,2.314-3.645,3.984-6.385,4.367c-2.839,0.397-5.792-0.36-7.846-2.414l-17.857-17.857c-1.888-1.887-2.842-4.712-2.403-7.356c0.211-1.274,0.511-2.535,0.808-3.792c1.221-5.165,2.609-10.292,3.994-15.414c4.532-16.765,9.293-33.469,4.064-50.167l-68.359-68.359l-76.451,160.437c-1.107,2.49-3.146,4.268-5.84,4.811c-3.074,0.619-6.408-0.039-8.668-2.3l-17.857-17.856c-1.674-1.674-2.511-3.813-2.511-6.418	    l0.279-1.674l39.898-208.146l-66.965-66.964c-8.304-8.304-16.31-16.962-23.472-26.28c-5.323-6.926-10.284-14.277-13.852-22.277C55.979,82.639,53.229,69.417,61.925,60.729C65.737,56.915,58.108,64.542,61.925,60.729z" />    </g>    </svg>';
+            let svgrect = '<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="30px" height="30px" viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">    <g transform="rotate(45 250 250)"><path transform="rotate(' + planeInfo.heading + ' 250 250)" id="path6" fill="' + airplaneColor + '" d="M61.925,60.729c12.008-12.011,31.235-2.873,43.023,4.532c13.794,8.665,25.993,19.841,37.474,31.321l66.963,66.964l208.147-39.9c1.233-0.618,3.14-0.279,4.407,0.074c1.396,0.388,2.66,1.134,3.684,2.158l17.857,17.857c2.201,2.202,2.87,5.395,2.349,8.403c-0.485,.808-2.273,4.955-4.86,6.104l-160.436,76.451l68.359,68.358c18.595-5.313,37.19-10.65,55.888-15.595c3.688-0.975,7.382-1.954,11.105-2.788c0.895-0.2,1.794-0.403,2.702-0.532c2.527-0.359,5.252,0.671,7.035,2.454l17.856,18.135c2.116,2.117,2.855,5.195,2.379,8.107	    c-0.446,2.733-2.196,4.845-4.61,6.123l-78.125,43.248l-43.248,78.125c-1.447,2.314-3.645,3.984-6.385,4.367c-2.839,0.397-5.792-0.36-7.846-2.414l-17.857-17.857c-1.888-1.887-2.842-4.712-2.403-7.356c0.211-1.274,0.511-2.535,0.808-3.792c1.221-5.165,2.609-10.292,3.994-15.414c4.532-16.765,9.293-33.469,4.064-50.167l-68.359-68.359l-76.451,160.437c-1.107,2.49-3.146,4.268-5.84,4.811c-3.074,0.619-6.408-0.039-8.668-2.3l-17.857-17.856c-1.674-1.674-2.511-3.813-2.511-6.418	    l0.279-1.674l39.898-208.146l-66.965-66.964c-8.304-8.304-16.31-16.962-23.472-26.28c-5.323-6.926-10.284-14.277-13.852-22.277C55.979,82.639,53.229,69.417,61.925,60.729C65.737,56.915,58.108,64.542,61.925,60.729z" />    </g>    </svg>';
             let url = encodeURI("data:image/svg+xml," + svgrect).replace('#','%23');
             let icon = L.icon({iconUrl: url, className: labelMarkerClass });
 
-            return L.marker(L.latLng(direction.latitude, direction.longitude), {icon: icon}).addTo(this.map); 
+            return L.marker(L.latLng(planeInfo.latitude, planeInfo.longitude), {icon: icon}).addTo(this.map); 
         }   
 
         public updateContainerViewports(viewport: IViewport) {
@@ -257,9 +257,32 @@ module powerbi.extensibility.visual {
 
         public render(): void {
             this.map.addLayer(this.planesVisDataView.planesLayer);            
-            this.setLabelFontColor(this.settings.markers.getLabelFontColor());        
+            this.setLabelFontColor(this.settings.markers.getLabelFontColor());      
+
+            this.tooltipServiceWrapper.addTooltip<TooltipEnabledDataPoint>(this.getPlanesSelection(),(tooltipEvent: TooltipEventArgs<TooltipEnabledDataPoint>) => {
+                return tooltipEvent.data.tooltipInfo;
+            });       
         }
-       
+        
+        private getPlanesSelection(): UpdateSelection<PlanesVisPlane> {
+            let planesSelection: UpdateSelection<PlanesVisPlane>;
+			let planesElements: Selection<PlanesVisPlane>;
+
+			planesElements = this.root.select(".leaflet-marker-pane").selectAll(".leaflet-interactive");            
+
+            let array = [];                      
+            
+            for(var item in this.planesVisDataView.planes) {
+                array.push(this.planesVisDataView.planes[item]);
+            } 
+            
+			planesSelection = planesElements.data(array.filter((plane) => {
+                return plane.tooltipInfo.length > 0;
+            }));
+        
+            return planesSelection;
+        }
+        
         public clearMap(): void {
             let dataView = this.planesVisDataView;
             if (dataView && dataView.planesLayer) {
@@ -267,8 +290,8 @@ module powerbi.extensibility.visual {
             }
         }
         
-        private parseDataViewToDirections(dataView: DataView): Direction[] {
-            let directions: Direction[] = [];
+        private parseDataViewToPlaneInfos(dataView: DataView): PlaneInfo[] {
+            let planeInfos: PlaneInfo[] = [];
             let planecodes: any[] = dataView.categorical.categories[0].values;
 
             let latitude: any[] = dataView.categorical.values[0].values,
@@ -325,11 +348,11 @@ module powerbi.extensibility.visual {
                     let format = ValueFormatter.getFormatStringByColumn(column.source, true),
                     name = column.source.displayName,
                     value = column.values[index] ? column.values[index] : "";                                   
-                    
+
                     tooltipInfo.push({displayName: name, value: ValueFormatter.format(value, format)});
                 });                         
                                    
-                    directions.push({
+                    planeInfos.push({
                         index: index,
                         planecode: planecodes[index],
                         latitude: latitude[index],
@@ -345,22 +368,23 @@ module powerbi.extensibility.visual {
                         tooltipInfo: tooltipInfo
                     });
                 });                                  
-            return directions;
+            return planeInfos;
        }
                    
-       private createPlane(direction: Direction, settings: PlanesVisSettings, selectionCategoryColumn: DataViewCategoricalColumn): PlanesVisPlane {                                                                                             
-            let plane = this.createPlaneMarker(direction, settings); 
+       private createPlane(planeInfo: PlaneInfo, settings: PlanesVisSettings, selectionCategoryColumn: DataViewCategoricalColumn): PlanesVisPlane {                                                                                             
+            let plane = this.createPlaneMarker(planeInfo, settings); 
             this.setOnMarkerClickEvent(plane);
 
             let selectionId = this.host.createSelectionIdBuilder()
-                .withCategory(selectionCategoryColumn, direction.index)
+                .withCategory(selectionCategoryColumn, planeInfo.index)
                 .createSelectionId();
 
             return {
-                location: L.latLng(direction.latitude, direction.longitude),
+                location: L.latLng(planeInfo.latitude, planeInfo.longitude),
                 marker : plane,
                 isSelected: false,
-                selectionId: selectionId
+                selectionId: selectionId,
+                tooltipInfo: planeInfo.tooltipInfo
             };
         }
 
@@ -386,20 +410,20 @@ module powerbi.extensibility.visual {
                 };
             }                  
 
-            let directions = this.parseDataViewToDirections(dataView),
+            let planeInfos = this.parseDataViewToPlaneInfos(dataView),
                 planeCategory = dataView.categorical.categories[0];
 
             let planesCategory = dataView.categorical.categories[0];
             let processedPlanes: PlanesVisPlanesList = {}
             let planeLayer: L.FeatureGroup = L.featureGroup();
 
-            for (var item in directions) {
-                let direction = directions[item],
-                    keyArc = direction.planecode;                
+            for (var item in planeInfos) {
+                let planeInfo = planeInfos[item],
+                    keyArc = planeInfo.planecode;                
                 if(!keyArc) {
                     continue;
                 } 
-                let planesMap = this.createPlane(direction,settings, planesCategory);
+                let planesMap = this.createPlane(planeInfo,settings, planesCategory);
                 processedPlanes[keyArc] = planesMap;
                 planeLayer.addLayer(processedPlanes[keyArc].marker);
             }        
@@ -432,7 +456,6 @@ module powerbi.extensibility.visual {
                     }
                 }
                 let isMultipleSelection = (e as L.MouseEvent).originalEvent.ctrlKey;
-
                 if(!plane || (plane.isSelected && !isMultipleSelection)) {
                     return;
                 }

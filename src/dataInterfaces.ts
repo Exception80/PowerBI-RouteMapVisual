@@ -37,7 +37,7 @@ module powerbi.extensibility.visual {
         [key: string]: PlanesVisPlane;
     }
 
-    export interface PlanesVisPlane {
+    export interface PlanesVisPlane extends TooltipEnabledDataPoint {
         marker: L.Marker,
         location: L.LatLng,
         isSelected: boolean,
@@ -62,7 +62,7 @@ module powerbi.extensibility.visual {
         coeficient: number
     } 
     
-    export interface Direction {
+    export interface PlaneInfo {
         index: number,
         planecode: string,
         latitude: number,
